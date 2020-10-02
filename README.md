@@ -1,4 +1,4 @@
-#Pokemon memory game
+# Pokemon memory game
 
 A simple pokemon memory game using react<br />
 Link : https://lukkyz.github.io/memory-game/
