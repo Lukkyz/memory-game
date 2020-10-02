@@ -1,3 +1,8 @@
+#Pokemon memory game
+
+A simple pokemon memory game using react<br />
+Link : https://lukkyz.github.io/memory-game/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
