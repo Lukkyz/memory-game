@@ -1,10 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Press Start 2P", cursive, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url(/memory-game/bg.png) no-repeat center center fixed;
+  background-size: cover;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 code {
@@ -15,9 +21,68 @@ code {
 .container {
   display: flex;
   flex-direction: row;
-  width: 50%;
+  width: 40em;
+  margin: auto;
+  flex-wrap: wrap;
+  margin-top: 5%;
 }
 
 .card {
-  width: 50rem;
+  animation: spin 0.4s linear forwards;
+  height: 10rem;
+}
+
+.main {
+  position: relative;
+}
+
+.win {
+  background-size: cover;
+  background-position: center;
+  background-image: url("/memory-game/bg-win.jpeg");
+  position: absolute;
+  border: 1px solid black;
+  height: 30%;
+  width: 100%;
+  font-size: 2em;
+  top: 30%;
+  background-color: white;
+  left: 0;
+  margin-bottom: 100px;
+  color: black;
+  text-align: left;
+  padding-top: auto;
+  visibility: visible;
+  animation: hidden 2s linear forwards;
+}
+
+.win h2 {
+  animation: defilement-rtl 2s ease forwards;
+  vertical-align: middle;
+  visibility: visible;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes defilement-rtl {
+  50% {
+    transform: translate3d(40%, 0, 0); /* position finale à gauche */
+  }
+  100% {
+    transform: translate3d(100%, 0, 0); /* position finale à gauche */
+    visibility: hidden;
+  }
+}
+
+@keyframes hidden {
+  100% {
+    visibility: hidden;
+  }
 }

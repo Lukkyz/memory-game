@@ -8,8 +8,10 @@ class App extends React.Component {
     this.state = {
       currentFirst: 0,
       currentScnd: 0,
-      finished: [],
+      founded: [],
+      pause: false,
       turn: 0,
+      win: 0,
       card: [
         {
           idCard: 1,
@@ -35,6 +37,14 @@ class App extends React.Component {
           idCard: 6,
           src: process.env.PUBLIC_URL + "/mewtwo.webp",
         },
+        {
+          idCard: 7,
+          src: process.env.PUBLIC_URL + "/arceus.webp",
+        },
+        {
+          idCard: 8,
+          src: process.env.PUBLIC_URL + "/groudon.webp",
+        },
       ],
       cardList: [],
     };
@@ -56,6 +66,7 @@ class App extends React.Component {
     });
   }
   check() {
+    let equal = 0;
     if (this.state.currentFirst && this.state.currentScnd) {
       let indexFirst = this.state.cardList.findIndex(
         (x) => x.id === this.state.currentFirst
@@ -67,39 +78,47 @@ class App extends React.Component {
         this.state.cardList[indexFirst].idCard ===
         this.state.cardList[indexScnd].idCard
       ) {
-        let cardFinished = this.state.cardList[indexFirst].idCard;
-        this.setState({
-          finished: [...this.state.finished, cardFinished],
-        });
+        equal = 1;
       }
-      this.setState({
-        currentFirst: 0,
-        currentScnd: 0,
-        turn: this.state.turn + 1,
-      });
+      let cardFinished = this.state.cardList[indexFirst].idCard;
+      if (equal === 1) {
+        this.setState({
+          founded: [...this.state.founded, cardFinished],
+          currentFirst: 0,
+          currentScnd: 0,
+          turn: this.state.turn + 1,
+        });
+      } else {
+        setTimeout(() => {
+          this.setState({
+            currentFirst: 0,
+            currentScnd: 0,
+            turn: this.state.turn + 1,
+          });
+        }, 1000);
+      }
     }
-  }
-  componentWillUpdate() {
-    this.check();
   }
   shuffle(array) {
     var currentIndex = array.length,
       temporaryValue,
       randomIndex;
-    // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-
-      // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
     return array;
   }
+  componentDidUpdate() {
+    this.check();
+  }
   click(id) {
+    if (this.state.currentFirst && this.state.currentScnd) {
+      return;
+    }
     if (!this.state.currentFirst) {
       this.setState({
         currentFirst: id,
@@ -114,18 +133,33 @@ class App extends React.Component {
     let list = this.state.cardList.map((card) =>
       this.state.currentFirst === card.id ||
       this.state.currentScnd === card.id ||
-      this.state.finished.includes(card.idCard) ? (
+      this.state.founded.includes(card.idCard) ? (
         <img alt="pokemon" className="card" src={card.src} />
       ) : (
         <img
-          alt="hidden card"
-          onClick={() => this.click(card.id)}
+          alt="card"
           className="card"
+          onClick={() => this.click(card.id)}
           src={process.env.PUBLIC_URL + "/pokeball.png"}
         />
       )
     );
-    return <div className="container">{list}</div>;
+    return (
+      <div className="main">
+        <h2 className="title">Attrapez-les tous</h2>
+        <span>
+          Trouvé : {this.state.founded.length}/{this.state.card.length}
+        </span>
+        <div className="container">{list}</div>
+        {this.state.founded.length === this.state.card.length ? (
+          <span className="win">
+            <h2>Bien joué !</h2>
+          </span>
+        ) : (
+          ""
+        )}
+      </div>
+    );
   }
 }
 
